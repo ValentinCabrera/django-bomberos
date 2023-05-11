@@ -28,6 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 
+CSRF_USE_SESSIONS = True
+CSRF_TRUSTED_ORIGINS = [
+    'https://django-lhka.onrender.com',
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,13 +85,17 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'bomberos',
+    'USER': 'vale',
+    'HOST': 'dpg-chemd6grddl9buh3fl1g-a.oregon-postgres.render.com',
+    'PASSWORD': 'QESoYu3OvnKkKQBN30GNGKdTNoRHIRWE',
+    'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
