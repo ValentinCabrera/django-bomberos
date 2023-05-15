@@ -6,9 +6,12 @@ from bomberos.models import BomberoUser
 from datetime import date, datetime
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 
 from .models import DetalleGuardia, EstadoGuardia
 from bomberos.models import Actividad
+
+from .permissions import BomberoAdminAuthentication
 
 
 class UserAddDetalle(APIView):
@@ -38,8 +41,10 @@ class AdminGuardiasAbiertas(APIView):
     post permite cerrar una guarda abierta {"guardia":id}
 
     falta verificar el sea admin
-
     """
+
+    authentication_classes = [BomberoAdminAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         estadoAbierta = EstadoGuardia.objects.get(nombre="abierta")
@@ -106,9 +111,11 @@ class UserListGuardias(APIView):
 
     """
 
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        data = request.data.get("bombero")
-        bombero = BomberoUser.objects.get(codigo=data)
+        bombero = request.user
 
         estadoRevisada = EstadoGuardia.objects.get(nombre="revisada")
 
@@ -163,14 +170,11 @@ class SuperListGuardias(APIView):
 
 
 class UserOpenGuardia(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
-        data = request.data
-
-        try:
-            bombero = BomberoUser.objects.get(codigo=data.get("bombero"))
-
-        except:
-            return Response("El bombero no existe")
+        bombero = request.user
 
         estadoAbierto = EstadoGuardia.objects.get(nombre="abierta")
         try:
@@ -191,14 +195,13 @@ class UserUpdateGuardia(APIView):
 
     """
 
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         data = request.data
 
-        try:
-            bombero = BomberoUser.objects.get(codigo=data.get("bombero"))
-
-        except:
-            return Response("El bombero no existe")
+        bombero = request.user
 
         estadoAbierto = EstadoGuardia.objects.get(nombre="abierta")
 
