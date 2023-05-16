@@ -8,15 +8,22 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 from guardias.permissions import BomberoAdminAuthentication
 
+from rest_framework import status
 
 class TokenVerify(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        return Response(status=status.HTTP_200_OK)
+
 
 class AdminVerify(APIView):
     authentication_classes = [BomberoAdminAuthentication]
     permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(status=status.HTTP_200_OK)
 
 
 class LoginAPIView(APIView):
