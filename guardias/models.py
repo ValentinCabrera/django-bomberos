@@ -35,8 +35,17 @@ class Guardia(models.Model):
             + str(self.horaEntrada.minute)
         )
 
+    def get_horaEntrada(self):
+        return self.horaEntrada.strftime("%H:%M")
+
+    def get_horaSalida(self):
+        if self.horaSalida:
+            return self.horaSalida.strftime("%H:%M")
+        
+        return None
+
     def get_tiempo(self):
-        estadoCerrada = EstadoGuardia.objects.get(nombre="cerrada")
+        estadoCerrada = EstadoGuardia.objects.get(nombre="revisada")
 
         if self.estado == estadoCerrada:
             tiempoEntrada = datetime.combine(self.fechaEntrada, self.horaEntrada)
@@ -45,17 +54,30 @@ class Guardia(models.Model):
             diferencia = tiempoSalida - tiempoEntrada
             tiempo = diferencia.total_seconds() / 3600
 
-            return tiempo
+            return round(tiempo, 1)
 
         return 0
 
-    def it_actual_month(self):
-        actual_month = datetime.now().month
+    def is_month(self, month=None, year=None):
+        if not year:
+            year = datetime.now().year
 
-        if self.fechaEntrada.month == actual_month:
+        if not month:
+            month = datetime.now().month
+
+        if self.fechaEntrada.month == month and self.fechaEntrada.year == year:
             return True
 
         return False
+    
+    def get_actividades(self):
+        detalles = self.detalles.all()
+        actividades = []
+
+        for i in detalles:
+            actividades.append(i.actividad)
+
+        return actividades
 
 
 class DetalleGuardia(models.Model):

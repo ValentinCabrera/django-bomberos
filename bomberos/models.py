@@ -33,7 +33,6 @@ class CategoriaBombero(models.Model):
     def __str__(self):
         return self.nombre
 
-
 class Actividad(models.Model):
     nombre = models.CharField(max_length=50)
     descripcion = models.TextField(null=True, blank=True)
@@ -85,6 +84,7 @@ class BomberoUser(AbstractBaseUser, PermissionsMixin):
 
     is_staff = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_super = models.BooleanField(default=False)
 
     USERNAME_FIELD = "codigo"
 

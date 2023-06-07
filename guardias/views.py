@@ -7,6 +7,7 @@ from datetime import date, datetime
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
+from rest_framework import status
 
 from .models import DetalleGuardia, EstadoGuardia
 from bomberos.models import Actividad
@@ -33,7 +34,27 @@ class UserAddDetalle(APIView):
         serializer = GuardiaSerializer(guardia)
 
         return Response(serializer.data)
+    
 
+class UserRemoveDetalle(APIView):
+    """
+    post permite al usuario eliminar un detalle a una guardia {"guardia":id, "actividad":id}
+    retorna la guardia
+
+    """
+
+    def post(self, request):
+        data = request.data
+
+        guardia = Guardia.objects.get(id=data.get("guardia"))
+        actividad = Actividad.objects.get(id=data.get("actividad"))
+
+        detalle = DetalleGuardia.objects.get(guardia=guardia, actividad=actividad)
+        detalle.delete()
+
+        serializer = GuardiaSerializer(guardia)
+        
+        return Response(serializer.data)
 
 class AdminGuardiasAbiertas(APIView):
     """
@@ -117,6 +138,15 @@ class UserListGuardias(APIView):
     def post(self, request):
         bombero = request.user
 
+        month = request.data.get("month")
+        year = request.data.get("year")
+
+        if month:
+            month = int(month)
+
+        if year:
+            year = int(year)
+
         estadoRevisada = EstadoGuardia.objects.get(nombre="revisada")
 
         guardias_revisadas = Guardia.objects.filter(
@@ -128,7 +158,7 @@ class UserListGuardias(APIView):
         horas_totales = 0
 
         for i in guardias_revisadas:
-            if i.it_actual_month():
+            if i.is_month(month, year):
                 guardias.append(i)
                 horas_totales += i.get_tiempo()
 
@@ -173,7 +203,7 @@ class UserOpenGuardia(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def get(self, request):
         bombero = request.user
 
         estadoAbierto = EstadoGuardia.objects.get(nombre="abierta")
@@ -184,7 +214,7 @@ class UserOpenGuardia(APIView):
             return Response(serializer.data)
 
         except:
-            return Response({})
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
 
 
 class UserUpdateGuardia(APIView):
@@ -194,7 +224,7 @@ class UserUpdateGuardia(APIView):
     abre una guardia si el usuario no tiene ninguna abierta {"bombero":codigo, "descripcion":None}
 
     """
-
+    
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
@@ -220,7 +250,7 @@ class UserUpdateGuardia(APIView):
 
             serializer = GuardiaSerializer(guardia)
 
-            return Response({})
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
 
         except:
             guardia = Guardia(bombero=bombero, estado=estadoAbierto)

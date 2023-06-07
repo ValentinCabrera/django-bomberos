@@ -7,9 +7,20 @@ class BomberoAdminAuthentication(TokenAuthentication):
     def authenticate(self, request):
         user, token = super().authenticate(request)
 
-        if user.is_admin == False:
+        if user.is_admin == False and user.is_super == False:
             raise AuthenticationFailed(
                 "No tienes los permisos necesarios para acceder."
             )
 
+        return user, token
+    
+class BomberoSuperAuthentication(TokenAuthentication):
+    def authenticate(self, request):
+        user, token = super().authenticate(request)
+
+        if user.is_super == False:
+            raise AuthenticationFailed(
+                "No tienes los permisos necesarios para acceder."
+            )
+        
         return user, token

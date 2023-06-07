@@ -6,7 +6,7 @@ from .serializers import BomberoSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
-from guardias.permissions import BomberoAdminAuthentication
+from guardias.permissions import BomberoAdminAuthentication, BomberoSuperAuthentication
 
 from rest_framework import status
 
@@ -15,8 +15,10 @@ class TokenVerify(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response(status=status.HTTP_200_OK)
+        bombero = request.user
+        serializer = BomberoSerializer(bombero)
 
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class AdminVerify(APIView):
     authentication_classes = [BomberoAdminAuthentication]
@@ -24,7 +26,13 @@ class AdminVerify(APIView):
 
     def get(self, request):
         return Response(status=status.HTTP_200_OK)
+    
+class SuperVerify(APIView):
+    authentication_classes = [BomberoSuperAuthentication]
+    permission_classes = [IsAuthenticated]
 
+    def get(self, request):
+        return Response(status=status.HTTP_200_OK)
 
 class LoginAPIView(APIView):
     def post(self, request):
@@ -47,3 +55,18 @@ class LoginAPIView(APIView):
 
         else:
             return Response({"Mensaje": "Incorrecto"})
+
+class SuperListPersonal(APIView):
+    authentication_classes = [BomberoSuperAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    """
+    get retorna el listado de bomberos en general
+    
+    """
+
+    def get (self, request):
+        bomberos = BomberoUser.objects.all()
+
+        serializer = BomberoSerializer(bomberos, many=True)
+        return Response(serializer.data)

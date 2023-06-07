@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from bomberos.views import LoginAPIView, TokenVerify, AdminVerify
+from bomberos.views import LoginAPIView, TokenVerify, AdminVerify, SuperVerify, SuperListPersonal
 from guardias.views import (
     UserUpdateGuardia,
     UserOpenGuardia,
     UserListGuardias,
     AdminGuardiasAbiertas,
     AdminGuardiasCerradas,
+    UserAddDetalle,
+    UserRemoveDetalle,
 )
 
 urlpatterns = [
@@ -34,4 +36,8 @@ urlpatterns = [
     path("guardias/admin/revisar/", AdminGuardiasCerradas.as_view()),
     path("auth/", TokenVerify.as_view()),
     path("auth/admin", AdminVerify.as_view()),
+    path("auth/super", SuperVerify.as_view()),
+    path("guardia/detalle/add/", UserAddDetalle.as_view()),
+    path("guardia/detalle/rm/", UserRemoveDetalle.as_view()),
+    path("super/list/bomberos/", SuperListPersonal.as_view()),
 ]
