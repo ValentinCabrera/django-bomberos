@@ -43,7 +43,7 @@ class LoginAPIView(APIView):
             bombero = BomberoUser.objects.get(codigo=codigo)
 
         except:
-            return Response({"Mensaje": "El bombero no se encontro"})
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         if bombero.check_password(password):
             serializer = BomberoSerializer(bombero)
@@ -54,7 +54,7 @@ class LoginAPIView(APIView):
             )
 
         else:
-            return Response({"Mensaje": "Incorrecto"})
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
 class SuperListPersonal(APIView):
     authentication_classes = [BomberoSuperAuthentication]
