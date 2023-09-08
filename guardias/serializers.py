@@ -35,9 +35,9 @@ class GuardiaSerializer(serializers.ModelSerializer):
     def get_horaSalida(self, obj):
         return obj.get_horaSalida()
 
-    def get_detalle(self, obj):
-        actividades = list(map(lambda i: i.actividad, obj.bombero.categoria.detallesCategoria.all())) 
-        seleccionadas = list(map(lambda i: i.actividad.id, obj.detalles.all()))
+    def get_detalle(self, obj):    
+        actividades = obj.get_actividades_posibles() 
+        seleccionadas = obj.get_actividades()
         serializer = ActividadSerializer(actividades, many=True).data
         
         for i in serializer:

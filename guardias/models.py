@@ -78,6 +78,15 @@ class Guardia(models.Model):
             actividades.append(i.actividad)
 
         return actividades
+    
+    def get_actividades_posibles(self):
+        try:
+            actividades_posibles = self.bombero.categoria.detallesCategoria.all()
+
+        except:
+            actividades_posibles = []
+            
+        return actividades_posibles
 
 
 class DetalleGuardia(models.Model):
