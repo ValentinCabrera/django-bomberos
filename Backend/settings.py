@@ -85,13 +85,13 @@ WSGI_APPLICATION = "Backend.wsgi.application"
 
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "bomberos",
-        "USER": "vale",
-        "HOST": "dpg-chemd6grddl9buh3fl1g-a.oregon-postgres.render.com",
-        "PASSWORD": "QESoYu3OvnKkKQBN30GNGKdTNoRHIRWE",
-        "PORT": "5432",
+    'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'reservas',
+    'USER': 'Vale',
+    'PASSWORD': "Berde",
+    'HOST': '152.168.125.242',
+    'PORT': '5432',
     }
 }
 
