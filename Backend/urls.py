@@ -15,29 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from bomberos.views import LoginAPIView, TokenVerify, AdminVerify, SuperVerify, SuperListPersonal
-from guardias.views import (
-    UserUpdateGuardia,
-    UserOpenGuardia,
-    UserListGuardias,
-    AdminGuardiasAbiertas,
-    AdminGuardiasCerradas,
-    UserAddDetalle,
-    UserRemoveDetalle,
-)
+
+from usuarios.views import AuthView
+from guardias.views import MisGuardiasView, HorasAcumuladasView, GuardiaView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("login/", LoginAPIView.as_view()),
-    path("guardia/update/", UserUpdateGuardia.as_view()),
-    path("guardia/open/", UserOpenGuardia.as_view()),
-    path("guardia/listar/", UserListGuardias.as_view()),
-    path("guardias/admin/abiertas/", AdminGuardiasAbiertas.as_view()),
-    path("guardias/admin/revisar/", AdminGuardiasCerradas.as_view()),
-    path("auth/", TokenVerify.as_view()),
-    path("auth/admin", AdminVerify.as_view()),
-    path("auth/super", SuperVerify.as_view()),
-    path("guardia/detalle/add/", UserAddDetalle.as_view()),
-    path("guardia/detalle/rm/", UserRemoveDetalle.as_view()),
-    path("super/list/bomberos/", SuperListPersonal.as_view()),
+    path("auth/", AuthView.as_view()),
+    path("guardias/mis-guardias/", MisGuardiasView.as_view()),
+    path("guardias/horas-acumuladas/", HorasAcumuladasView.as_view()),
+    path("guardias/guardia-actual/", GuardiaView.as_view()),
 ]

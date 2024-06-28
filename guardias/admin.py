@@ -1,7 +1,10 @@
 from django.contrib import admin
+from .models import Guardia, GuardiaActividad
 
-from .models import Guardia, EstadoGuardia, DetalleGuardia
+@admin.register(Guardia)
+class GuardiaAdmin(admin.ModelAdmin):
+    list_display = ('bombero', 'fecha_hora_inicio', 'fecha_hora_fin', 'bombero_cerro')
 
-admin.site.register(Guardia)
-admin.site.register(EstadoGuardia)
-admin.site.register(DetalleGuardia)
+@admin.register(GuardiaActividad)
+class GuardiaActividadAdmin(admin.ModelAdmin):
+    list_display = ('guardia', 'actividad')
