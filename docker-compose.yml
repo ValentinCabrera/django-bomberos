@@ -8,4 +8,4 @@ services:
     container_name: bomberos-back
     command: python manage.py runserver 0.0.0.0:8000
     ports:
-      - 8002:8000
+      - 8013:8000
