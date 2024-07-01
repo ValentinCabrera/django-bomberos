@@ -30,7 +30,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CSRF_USE_SESSIONS = True
 CSRF_TRUSTED_ORIGINS = [
-    "https://django-bomberos.onrender.com",
+    "https://bomberosapi.cavesoft.com.ar",
 ]
 
 # Application definition
