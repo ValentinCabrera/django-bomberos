@@ -30,7 +30,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CSRF_USE_SESSIONS = True
 CSRF_TRUSTED_ORIGINS = [
-    "https://bomberosapi.cavesoft.com.ar",
+    "https://bomberosapi.cavesoft.com.ar`",
 ]
 
 # Application definition
@@ -131,7 +131,7 @@ TIME_ZONE = "America/Argentina/Buenos_Aires"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
