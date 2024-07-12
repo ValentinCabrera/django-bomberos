@@ -3,7 +3,7 @@ from .models import Bombero, Actividad, Categoria, BomberoCategoria, CategoriaAc
 
 @admin.register(Bombero)
 class BomberoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'apellido', 'codigo', 'telefono', 'rol')
+    list_display = ('nombre', 'apellido', 'telefono', 'rol')
 
 @admin.register(Actividad)
 class ActividadAdmin(admin.ModelAdmin):
