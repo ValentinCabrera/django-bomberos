@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-v(*fll5e$%ypbpdkd_6qmz)*%n^g3-vux@3xom0u^gpzmy2rsu
 DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://bomberosapi.cavesoft.com.ar`",
+    "https://bomberosapi.cavesoft.com.ar",
 ]
 
 ALLOWED_HOSTS = ['*']
