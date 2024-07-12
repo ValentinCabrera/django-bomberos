@@ -29,7 +29,11 @@ class GuardiaActivaAdminView(APIView):
         guardia_id = request.data.get('id')
         guardia = Guardia.objects.get(id=guardia_id)
 
+        user = request.user
+        bombero = user.bombero.first()
+
         guardia.fecha_hora_fin = timezone.now()
+        guardia.bombero_cerro = bombero
         guardia.save()
 
         return Response(GuardiaActivaAdminView.get(self, request).data, status=200)
