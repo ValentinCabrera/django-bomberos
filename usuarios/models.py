@@ -11,6 +11,7 @@ class Bombero(models.Model):
     ROLES = (
         ('1', 'Jefe de Cuerpo'),
         ('2', 'Administrador'),
+        ('3', 'Bombero'),
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bombero')

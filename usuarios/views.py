@@ -3,20 +3,22 @@ from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
 
-# class ValidarTokenView(APIView):
-#     def post(self, request):
-#         token_data = request.data.get('token')
-#         token = Token.objects.filter(key=token_data).first()
+class ValidarTokenView(APIView):
+    def post(self, request):
+        token_data = request.data.get('token')
+        token = Token.objects.filter(key=token_data).first()
 
-#         if token:
-#             user = token.user
-#             empresas = user.user_empresa.all()
-#             empresa = empresas[0].empresa
+        if token:
+            user = token.user
+            bombero = user.bombero.first()
+            rol = bombero.get_rol_display()
 
+            return Response({'user': user.username, 
+                             'token': token.key, 
+                            'rol': rol,
+                             }, status=200)
 
-#             return Response({'planes':empresa.planes}, status=200)
-
-#         return Response({'valido': False}, status=400)
+        return Response({'error': 'Token invalido'}, status=400)
 
 class AuthView(APIView):
     def post(self, request):
