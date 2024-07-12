@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from usuarios.views import AuthView, ValidarTokenView
+from usuarios.views import AuthView, ValidarTokenView, BomberoView
 from guardias.views import MisGuardiasView, HorasAcumuladasView, GuardiaView, GuardiaActivaAdminView
 
 urlpatterns = [
@@ -27,4 +27,5 @@ urlpatterns = [
     path("guardias/guardia-actual/", GuardiaView.as_view()),
     path("validar-token/", ValidarTokenView.as_view()),
     path("guardias/admin/guardias-activas/", GuardiaActivaAdminView.as_view()),
+    path("usuarios/bomberos/", BomberoView.as_view()),
 ]

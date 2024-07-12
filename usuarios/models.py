@@ -17,9 +17,8 @@ class Bombero(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bombero')
     nombre = models.CharField(max_length=50)
     apellido = models.CharField(max_length=50)
-    codigo = models.CharField(max_length=10, unique=True)
     telefono = models.CharField(max_length=10)
-    rol = models.CharField(max_length=1, choices=ROLES)
+    rol = models.CharField(max_length=1, choices=ROLES, default='3')
 
     def __str__(self):
         return self.nombre + ' ' + self.apellido

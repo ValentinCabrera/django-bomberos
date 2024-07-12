@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-v(*fll5e$%ypbpdkd_6qmz)*%n^g3-vux@3xom0u^gpzmy2rsu"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 CSRF_TRUSTED_ORIGINS = [
     "https://bomberosapi.cavesoft.com.ar",
