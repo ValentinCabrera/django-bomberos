@@ -5,6 +5,35 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 
+class GuardiaActivaAdminView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        guardias_activas = Guardia.objects.filter(fecha_hora_fin__isnull=True)
+
+        guardias_activas_data = []
+
+        for guardia in guardias_activas:
+            guardias_activas_data.append({
+                'id': guardia.id,
+                'bombero': guardia.bombero.nombre + ' ' + guardia.bombero.apellido,
+                'hora_inicio': guardia.get_hora_inicio(),
+                'duracion': guardia.get_duracion(),
+                'actividades': guardia.get_actividades(),
+            })
+
+        return Response({'guardias_activas': guardias_activas_data}, status=200)
+    
+    def post(self, request):
+        guardia_id = request.data.get('id')
+        guardia = Guardia.objects.get(id=guardia_id)
+
+        guardia.fecha_hora_fin = timezone.now()
+        guardia.save()
+
+        return Response(GuardiaActivaAdminView.get(self, request).data, status=200)
+
 class GuardiaView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
