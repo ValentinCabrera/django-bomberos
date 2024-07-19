@@ -26,6 +26,12 @@ class GuardiaActivaAdminView(APIView):
         return Response({'guardias_activas': guardias_activas_data}, status=200)
     
     def post(self, request):
+        direccion_ip = request.data.get('direccion_ip').split('.')
+        DIRECCION_BOMBEROS = '190.123.91.200'.split('.')
+
+        if direccion_ip[0] != DIRECCION_BOMBEROS[0] or direccion_ip[1] != DIRECCION_BOMBEROS[1] or direccion_ip[2] != DIRECCION_BOMBEROS[2]:
+            return Response({'message': 'Debe estar en la red de los bomberos para cerrar o abrir una guardia'}, status=403)
+        
         guardia_id = request.data.get('id')
         guardia = Guardia.objects.get(id=guardia_id)
 
@@ -72,6 +78,12 @@ class GuardiaView(APIView):
             return Response({'guardia': None, 'actividades': actividades}, status=200)
         
     def post(self, request):
+        direccion_ip = request.data.get('direccion_ip').split('.')
+        DIRECCION_BOMBEROS = '190.123.91.200'.split('.')
+
+        if direccion_ip[0] != DIRECCION_BOMBEROS[0] or direccion_ip[1] != DIRECCION_BOMBEROS[1] or direccion_ip[2] != DIRECCION_BOMBEROS[2]:
+            return Response({'message': 'Debe estar en la red de los bomberos para cerrar o abrir una guardia'}, status=403)
+    
         user = request.user
         bombero = user.bombero.first()
 
@@ -102,6 +114,12 @@ class GuardiaView(APIView):
         return Response(GuardiaView.get(self, request).data, status=200)
         
     def delete(self, request):
+        direccion_ip = request.data.get('direccion_ip').split('.')
+        DIRECCION_BOMBEROS = '190.123.91.200'.split('.')
+
+        if direccion_ip[0] != DIRECCION_BOMBEROS[0] or direccion_ip[1] != DIRECCION_BOMBEROS[1] or direccion_ip[2] != DIRECCION_BOMBEROS[2]:
+            return Response({'message': 'Debe estar en la red de los bomberos para cerrar o abrir una guardia'}, status=403)
+        
         user = request.user
         bombero = user.bombero.first()
 
