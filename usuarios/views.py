@@ -32,7 +32,14 @@ class BomberoView(APIView):
         apellido = request.data.get('apellido')
         telefono = request.data.get('telefono')
 
-        user = User.objects.create_user(username=codigo, password=nombre+apellido)
+        codigo = codigo.strip()
+        nombre = nombre.strip()
+        apellido = apellido.strip()
+        telefono = telefono.strip()
+
+        password = (nombre+apellido).lower()
+
+        user = User.objects.create_user(username=codigo, password=password)
         user.save()
 
         bombero = Bombero(user=user, nombre=nombre, apellido=apellido, telefono=telefono)
